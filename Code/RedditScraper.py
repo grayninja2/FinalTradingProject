@@ -9,8 +9,19 @@ class RedditScraper:
         this.keywords = keywords #Saves keywords for grabbing relevent articles
         this.articles = [] #saves all articles
     def scrape(this):
-        for submissions in Agent.reddit.subreddit(this.subR).hot(limit=None): #gets submissions and saves them if they have keywords as a article with their popularity calculated
-            for a in this.keywords:
+        for submissions in Agent.reddit.subreddit(this.subR).new(limit=1000): #gets submissions and saves them if they have keywords as a article with their popularity calculated
+            max = 0
+            for a in this.keywords.keys():
                 if submissions.title.lower().find(a.lower())!=-1:
-                    pop = math.pow(10,(2-((submissions.upvote_ratio*100)/-50)))*submissions.score
-                    this.articles.append(Ar.Article(submissions.title,submissions.created_utc,submissions.selftext,pop,submissions.url))
+                    keys = list()
+                    vals = list()
+                    for a in this.keywords.keys():
+                        if submissions.title.lower().find(a.lower())!=-1:
+                            if(not(a in keys)):
+                                keys.append(a)
+                                vals.append(this.keywords[a])
+                    for x in vals:
+                        max += x
+                    pop = (math.pow(10,(2-((100-(submissions.upvote_ratio*100))/50)))/100)*submissions.score*max
+                    this.articles.append(Ar.Article(submissions.title,submissions.created_utc,submissions.selftext,pop,submissions.url,None))
+                    break
