@@ -10,6 +10,7 @@ def main():
 
     #saves subreddits to be scraped
     subR = ["wallstreetbets","stocks","StocksAndTrading","Superstonk","hot_stocks","investing","StockMarket"]
+    subScore = []
 
     #saves key words for Tesla
     keyTesla = {"Tesla ":1, "TSLA ":1, "Electric Car":0.2, "Elon Musk":0.5, "Musk ":0.5, "Self Driving ":0.3}
@@ -26,22 +27,27 @@ def main():
         scraperR.scrape()
         
         for x in scraperR.articles:
+            x.subR = sub
             relArticles.append(x) #adds all articles
+        print(sub + " done")
 
     for art in relArticles:
-        art.sentiment = analys.analysis(art.title)
-
-    totalScore = 0
-    totalSentiment = 0
+        art.sentiment = analys.analysis(art.title) #uses sentiment analysis
 
     for x in relArticles:
-        totalScore += float(int(x.pop))
+        print(x.title + " (" + str(int(x.pop))+") { "+ str(x.sentiment) + " }") #prints articles
 
-    for x in relArticles:
-        print(x.title + " (" + str(int(x.pop))+") { "+ str(x.sentiment) + " }")
-        totalSentiment += ((float(int(x.pop))/totalScore)*x.sentiment)
+    for sub in subR: #finds a sentiment score for a given sub reddit by taking the average sentiment weighted for score
+        totalScore = 0
+        totalSentiment = 0
+        for x in relArticles:
+            totalScore += float(int(x.pop))
 
-    print(totalSentiment)
+        for x in relArticles:
+            totalSentiment += ((float(int(x.pop))/totalScore)*x.sentiment)
+
+        subScore.append(totalSentiment)
+        print(str(totalSentiment) + " sub:" + sub)
 
 if __name__ == '__main__':
     main()

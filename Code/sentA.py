@@ -8,8 +8,9 @@ from transformers import pipeline
 
 class sentiment: #uses vader lexicon to anylis text with Nltk
     def __init__(this):
-        nltk.download('all')
-        this.sid = SentimentIntensityAnalyzer()
+        # nltk.download('all')
+        # this.sid = SentimentIntensityAnalyzer()
+        pass
     def oldAnalysis(this,text):
         #tokenizes
         tokens = word_tokenize(text.lower())
@@ -26,9 +27,8 @@ class sentiment: #uses vader lexicon to anylis text with Nltk
     def analysis(this,text): #analysis using hugging face models
         sentiment_pipeline = pipeline(model="zhayunduo/roberta-base-stocktwits-finetuned")
         analysis = sentiment_pipeline(text)
-        print(analysis)
         if (analysis)[0]['label']=='Negative':
-            analysis[0]['score'] = -2*(analysis[0]['score']-0.5)
+            analysis[0]['score'] = -2*(analysis[0]['score']-0.5) #subtracts 0.5 becasue 0.5 is neutral, then multiplys by 2 to bring it back up and if  its negative multiplys by -1
         else:
             analysis[0]['score'] = 2*(analysis[0]['score']-0.5)
         return analysis[0]['score']
