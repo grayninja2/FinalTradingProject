@@ -1,4 +1,6 @@
 class Stock:
-    def __init__(self):
+    def __init__(self,stock):
+        self.stock = stock
         self.head = ""
-        
+        self.keys = {}
+        self.articles = []

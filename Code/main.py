@@ -13,17 +13,14 @@ def main():
     subScore = []
 
     #saves key words for Tesla
-    keyTesla = {"Tesla ":1, "TSLA ":1, "Electric Car":0.2, "Elon Musk":0.5, "Musk ":0.5, "Self Driving ":0.3}
-
-    #master dictionary of keywords
-    keys = {"Tesla":keyTesla}
+    keys = {"Tesla ":1, "TSLA ":1, "Electric Car":0.2, "Elon Musk":0.5, "Musk ":0.5, "Self Driving ":0.3}
 
     #saves articles with keywords
     relArticles = list()
 
     #scrapes all subreddits
     for sub in subR:
-        scraperR = RS.RedditScraper(keys["Tesla"],sub)
+        scraperR = RS.RedditScraper(keys,sub)
         scraperR.scrape()
         
         for x in scraperR.articles:
