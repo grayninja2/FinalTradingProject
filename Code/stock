@@ -4,3 +4,4 @@ class Stock:
         self.head = ""
         self.keys = {}
         self.articles = []
+        

@@ -15,8 +15,8 @@ class RedditScraper:
                 if submissions.title.lower().find(a.lower())!=-1: #finds keyword in article title
                     keys = list()
                     vals = list()
-                    for a in this.keywords.keys():
-                        if submissions.title.lower().find(a.lower())!=-1: #makes it so articles dont repeatedly get added
+                    for a in this.keywords.keys(): #makes it so articles dont repeatedly get added
+                        if submissions.title.lower().find(a.lower())!=-1:
                             if(not(a in keys)):
                                 keys.append(a)
                                 vals.append(this.keywords[a])

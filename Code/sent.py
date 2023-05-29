@@ -4,7 +4,10 @@ import RedditScraper as RS
 import keyword as k
 import sentA
 
-def main():
+def main(keyDic):
+    #return list of sentiments
+    returnStrings = [] 
+
     #makes sentiment analysis class
     analys = sentA.sentiment()
 
@@ -13,7 +16,7 @@ def main():
     subScore = []
 
     #saves key words for Tesla
-    keys = {"Tesla ":1, "TSLA ":1, "Electric Car":0.2, "Elon Musk":0.5, "Musk ":0.5, "Self Driving ":0.3}
+    keys = keyDic
 
     #saves articles with keywords
     relArticles = list()
@@ -38,13 +41,17 @@ def main():
         totalScore = 0
         totalSentiment = 0
         for x in relArticles:
-            totalScore += float(int(x.pop))
+            if(x.subR==sub):
+                totalScore += float(int(x.pop)) #this gets the total score of all the posts for a subreddit
 
         for x in relArticles:
-            totalSentiment += ((float(int(x.pop))/totalScore)*x.sentiment)
+            if(x.subR==sub):
+                if(totalScore!=0):
+                    totalSentiment += ((float(int(x.pop))/totalScore)*x.sentiment) #finds the total sentimetn by taking the averages
 
         subScore.append(totalSentiment)
-        print(str(totalSentiment) + " sub:" + sub)
+        returnStrings.append(str(totalSentiment) + " sub:" + sub) #saves our return strings in the list
+    return returnStrings
 
 if __name__ == '__main__':
     main()
